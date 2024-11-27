@@ -6,9 +6,9 @@ pipeline {
     environment {
         PIP_BREAK_SYSTEM_PACKAGES=1
         scannerHome = tool 'SonarQube';
-        imageName='192.168.44.44:8082/docker-local/frontend'
-        dockerRegistry='http://192.168.44.44:8082'
-        registryCredentials='artifactory'
+        def imageName=“thatgreendragon/panda-backend"
+        def dockerRegistry=""
+        def registryCredentials= "dockerhub"
         }
 
     stages {
