@@ -62,13 +62,14 @@ pipeline {
          }
        }
        
-       post {
-            success {
-    // One or more steps need to be included within each condition's block.
-                    junit 'test-results/*.xml'
-                    cleanWs()
-                    build job: 'app_of_apps', parameters: [ string(name: 'frontendDockerTag', value: "$dockerTag")], wait: false
-                }
-            }
+ post {
+        always {
+            junit testResults: "test-results/*.xml"
+            cleanWs()
+        }
+        success {
+            build job: 'app_of_apps', parameters: [ string(name: 'frontendDockerTag', value: "$dockerTag")], wait: false
+        }
+    }
     
     }
