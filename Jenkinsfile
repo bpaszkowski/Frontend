@@ -1,6 +1,7 @@
         def imageName="thatgreendragon/panda-frontend"
         def dockerRegistry=""
         def registryCredentials= "dockerhub"
+        def dockerTag=""
 
 pipeline {
     agent {
