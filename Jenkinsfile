@@ -40,6 +40,7 @@ pipeline {
         stage('buduje obraz dockerowy') {
             steps {
                 script {
+                dockerTag = "RC-${env.BUILD_ID}.${env.GIT_COMMIT.take(7)}"        
                 customImage = docker.build("${imageName}:${env.BUILD_ID}")
                 
                 }
