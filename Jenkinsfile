@@ -60,6 +60,21 @@ pipeline {
             }
              
          }
+            stage ('Push to Repo') {
+            steps {
+                dir('ArgoCD') {
+                    withCredentials([gitUsernamePassword(credentialsId: 'git', gitToolName: 'Default')]) {
+                        git branch: 'main', url: 'https://github.com/Panda-Academy-Core-2-0/ArgoCD.git'
+                        sh """ cd frontend
+                        sed -i "s#$imageName.*#$imageName:$dockerTag#g" deployment.yaml
+                        git commit -am "Set new $dockerTag tag."
+                        git push origin main
+                        """
+                    }
+                }
+            }
+        }
+    }
        }
        
  post {
@@ -67,9 +82,9 @@ pipeline {
             junit testResults: "test-results/*.xml"
             cleanWs()
         }
-        success {
-            build job: 'app_of_apps', parameters: [ string(name: 'frontendDockerTag', value: "$dockerTag")], wait: false
-        }
+//        success {
+//            build job: 'app_of_apps', parameters: [ string(name: 'frontendDockerTag', value: "$dockerTag")], wait: false
+//        }
     }
     
     }
